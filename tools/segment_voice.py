@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Нарезка голосовых заметок (.oga/.ogg/.m4a/.wav) на отдельные произнесения по паузам.
 
-  python segment_voice.py --label sonet  voice_note.oga  --out "$WAKEWORD_ROOT"/sonet/real
+  python segment_voice.py --label sonet  voice_note.oga  --out "$WAKEWORD_ROOT"/siesta/real
   python segment_voice.py --label alisa  … ;  --label neg …
 
 Выход: OUT/<label>/<имя>-NNN.wav (16 кГц моно int16) + печать длительностей. Порог тишины
@@ -61,7 +61,7 @@ def write(path, x):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("files", nargs="+"); ap.add_argument("--label", required=True); ap.add_argument("--out", default=os.path.join(ROOT, "sonet", "real"))
+    ap.add_argument("files", nargs="+"); ap.add_argument("--label", required=True); ap.add_argument("--out", default=os.path.join(ROOT, "siesta", "real"))
     ap.add_argument("--whole", action="store_true", help="не резать, сохранить целиком")
     a = ap.parse_args()
     for f in a.files:

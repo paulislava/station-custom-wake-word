@@ -13,3 +13,5 @@ __pycache__/
 *.pyc
 # заводской flags.txt с колонки - файл прошивки, не публикуется
 deploy/model-dir/flags.txt
+venv312/
+venv_tts/

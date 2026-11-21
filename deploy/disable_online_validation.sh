@@ -1,7 +1,7 @@
 #!/bin/zsh
 # SPDX-License-Identifier: Apache-2.0
 # Облачная перепроверка слова активации: выключить для типа activation (иначе облако, зная только «Алису»,
-# отменяет запрос после «Сонет»). Правится локальный /system/vendor/quasar/quasar.cfg:
+# отменяет запрос после «Сиеста»). Правится локальный /system/vendor/quasar/quasar.cfg:
 #   voiceDialogSettings.onlineSpotterValidationDisabledTypes: ["noise-detection","vad"] -> + "activation"
 # Облачный system_config эту графу не несёт (проверено 06.11.2026), поэтому локальное значение остаётся в силе.
 #   zsh disable_online_validation.sh <IP> apply     # правка + перезагрузка (колонка прозвучит)
