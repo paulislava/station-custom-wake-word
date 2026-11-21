@@ -166,11 +166,12 @@ class Composer:
         # позитивы «в предложении» с известным концом слова (siesta_align.py)
         self.sent = {1: [], 2: []}
         for it in items:
-            c = {"sent_alisa": 1, "sent_siesta": 2}.get(it["kind"])
+            sent_kind = it["kind"].replace("pos_", "sent_") if it["kind"].startswith("pos_") else it["kind"]
+            c = {k.replace("pos_", "sent_"): v for k, v in KIND2CLS.items()}.get(it["kind"])
             if c and it.get("kw_end"):
                 self.sent[c].append((read_wav(it["path"]), float(it["kw_end"])))
         self.noise = Noise(self.neg)
-        print(f"clips: алиса={len(self.pos[1])}+{len(self.sent[1])}sent сиеста={len(self.pos[2])}+{len(self.sent[2])}sent neg={len(self.neg)} prefix={len(self.pfx)}", flush=True)
+        print(f"clips: cls1={len(self.pos[1])}+{len(self.sent[1])}sent cls2={len(self.pos[2])}+{len(self.sent[2])}sent neg={len(self.neg)} prefix={len(self.pfx)}", flush=True)
 
     def one(self):
         rng = self.rng
@@ -430,9 +431,13 @@ def verify(tf, model, m, kernels, width, X):
 _W = {}
 
 
-def _init_worker(items, seed, share=0.65):
+def _init_worker(items, seed, share=0.65, kind2cls=None, classes=None):
     import os as _os
     global SIESTA_SHARE; SIESTA_SHARE = share
+    if kind2cls is not None:
+        global KIND2CLS; KIND2CLS = kind2cls
+    if classes is not None:
+        global CLASSES; CLASSES = classes
     _W["comp"] = Composer(items, seed + _os.getpid())
 
 

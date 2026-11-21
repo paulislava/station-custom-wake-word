@@ -28,7 +28,7 @@ def patch_globals(word):
     # Имя доли: было SONET_SHARE, используем общий WORD_SHARE
     word_share = cfg["word_share"]
     # Патчим SONET_SHARE (sonet_train uses this name internally)
-    T.SONET_SHARE = word_share
+    T.SIESTA_SHARE = word_share
     return cfg
 
 
@@ -54,7 +54,7 @@ def main():
 
     cfg = patch_globals(a.word)
     word_share = a.word_share if a.word_share is not None else cfg["word_share"]
-    T.SONET_SHARE = word_share
+    T.SIESTA_SHARE = word_share
 
     raw = a.raw or os.path.join(T.ROOT, a.word, "raw")
     out = a.out or os.path.join(T.ROOT, a.word, "run1")
@@ -79,7 +79,7 @@ def main():
 
     import multiprocessing as mp
     ctx = mp.get_context("spawn")
-    pool = ctx.Pool(a.workers, initializer=T._init_worker, initargs=(train_items, a.seed, word_share)) if a.workers > 0 else None
+    pool = ctx.Pool(a.workers, initializer=T._init_worker, initargs=(train_items, a.seed, word_share, T.KIND2CLS, T.CLASSES)) if a.workers > 0 else None
     comp = None if pool else T.Composer(train_items, a.seed)
 
     model = T.build(tf, kernels, a.width, len(T.CLASSES))
